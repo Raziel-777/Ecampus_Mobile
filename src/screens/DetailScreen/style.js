@@ -5,7 +5,7 @@ import {
 
 export default StyleSheet.create({
     title: {
-        fontSize: 65,
+        fontSize: 20,
         color: 'black',
         fontWeight: 'bold',
         fontFamily: 'Tahoma',

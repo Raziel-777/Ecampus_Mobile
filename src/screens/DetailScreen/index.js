@@ -15,6 +15,7 @@ import moment from 'moment'
 export default class DetailScreen extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
 
     }
 
@@ -23,9 +24,8 @@ export default class DetailScreen extends Component {
     };
 
     render() {
-        debugger;
 
-        let item = this.props.navigation.state.params.dataSource;
+        let item = this.props.navigation.state.params.item;
 
         return (
             <View style={{backgroundColor: 'white', flex: 1, padding: 10}}>
@@ -35,7 +35,13 @@ export default class DetailScreen extends Component {
                 <View style={{ marginTop:20, borderBottomWidth:2, borderBottomColor:'teal', paddingBottom:10 }}>
                     <Text>{item.user.name} . {moment(item.created_at).format('DD/MM/YY')}</Text>
                 </View>
-                <View>
+
+                <ScrollView>
+                    <View style={{
+                        paddingVertical: 10,
+                        borderBottomWidth: 2,
+                        borderBottomColor: 'teal'
+                    }}>
                     <Image
                         source={{
                             uri: 'https://test.ecampus.click/storage/imgpublication-resize/' +
@@ -44,18 +50,11 @@ export default class DetailScreen extends Component {
                         style={{
                             width: '100%',
                             borderRadius: 4,
-                            height:300,
+                            height:100,
                             resizeMode: Image.resizeMode.contain,
 
                         }}/>
                 </View>
-
-                <ScrollView style={{
-                    padding: 10,
-                    margin: 10,
-                    borderTopWidth: 2,
-                    borderTopColor: 'teal'
-                }}>
 
                     <HTMLView
                         value={item.content}

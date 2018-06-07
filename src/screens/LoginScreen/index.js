@@ -25,12 +25,12 @@ export default class LoginScreen extends Component {
         return (
 
             <View style={styles.container}>
-                <View style={styles.img}>
+                <View>
                     <Logo/>
                 </View>
 
                 <TextInput
-                    placeholder="Email adress"
+                    placeholder="Email adresse"
                     placeholderTextColor="rgba(0,0,0,0.7)"
                     style={styles.input}/>
                 <TextInput
@@ -63,11 +63,6 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: 'center',
         flexDirection: 'column',
-
-    },
-
-    img: {
-        alignItems: 'center',
     },
     input: {
         height: 50,

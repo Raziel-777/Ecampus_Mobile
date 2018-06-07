@@ -65,8 +65,7 @@ export default class PostListFree extends Component {
                                         borderRadius: 3,
                                         padding: 5
                                     }}
-                                                      onPress={() => {
-                                                          this.props.navigation.navigate('DetailScreen', {dataSource: item});
+                                                      onPress={() => { this.props.navigation.navigate('DetailScreen', {item})
                                                       }}>
                                         <View style={{flexDirection: 'column'}}>
                                             <View style={{

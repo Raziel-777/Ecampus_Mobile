@@ -5,7 +5,10 @@ export default class HomeScreen extends Component {
 
     render() {
         return (
-            <PostListFree/>
+            <PostListFree
+                {...this.props}
+                {...this.state}
+            />
         )
     };
 };
