@@ -5,7 +5,6 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
-    AsyncStorage
 } from 'react-native';
 import Logo from "../../components/Logo";
 import TokenStorage from '../../services/TokenStorage';

@@ -19,15 +19,25 @@ const navigationOptionsEmptyHeader = {
 const navigationOptionsHeader = {
     header:
         <View style={{
-            justifyContent: 'space-between',
             flexDirection: 'row',
-            borderBottomWidth: 2,
-            borderBottomColor: 'teal'
+            justifyContent: 'space-between',
+            height: '10%',
+            borderBottomColor : 'teal',
+            borderBottomWidth : 3,
+            alignItems: 'center'
         }}>
-            <Image style={{width: '15%',
-                resizeMode:Image.resizeMode.contain}} source={require('./src/assets/img/logo.png')}/>
-            <Hamburger/>
+            <View style={{
+                paddingHorizontal: 10
+            }}>
+                <Image style={{
+                    width: 150,
+                    height: 50,
+                    resizeMode: Image.resizeMode.contain
+                }}
+                       source={require('./src/assets/img/logo.png')}/>
 
+            </View>
+            <Hamburger/>
         </View>
 
 };
@@ -48,6 +58,7 @@ export default createStackNavigator(
         },
         Login: {
             screen: LoginScreen,
+            // !!!!
             navigationOptions: navigationOptionsEmptyHeader
         },
         Register: {

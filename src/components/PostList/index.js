@@ -48,8 +48,8 @@ export default class PostList extends Component {
         } else {
             return (
                 <View style={styles.container}>
-                    <View style={{padding: 20}}>
-                        <Text style={{fontWeight: 'bold'}}>
+                    <View style={{alignItems: 'center', marginBottom: 10}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 20}}>
                             Tous les Tutoriels
                         </Text>
                     </View>
@@ -59,7 +59,8 @@ export default class PostList extends Component {
                             <View style={{padding: 10}}>
                                 <View>
                                     <TouchableOpacity style={{
-                                        backgroundColor: 'teal',
+                                        backgroundColor: '#353b48',
+                                        borderColor: 'teal',
                                         borderRadius: 3,
                                         padding: 5
                                     }}
@@ -95,7 +96,7 @@ export default class PostList extends Component {
                                                         <Text style={{
                                                             fontWeight: 'bold',
                                                             color: 'white',
-                                                            fontSize: 20
+                                                            fontSize: 15
                                                         }}>
                                                             {item.title}
                                                         </Text>
@@ -105,6 +106,7 @@ export default class PostList extends Component {
                                                     }}>
                                                         <Text style={{
                                                             color: 'white',
+                                                            fontSize: 15
                                                         }}>
                                                             {item.description}
                                                         </Text>
