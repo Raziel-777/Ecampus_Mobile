@@ -8,8 +8,9 @@ import {
     createDrawerNavigator,
     createStackNavigator,
 } from 'react-navigation';
-import {View} from "react-native";
+import {View, Image} from "react-native";
 import Hamburger from './src/components/Hamburger';
+import Logo from './src/components/Logo'
 
 const navigationOptionsEmptyHeader = {
     header: null,
@@ -23,6 +24,8 @@ const navigationOptionsHeader = {
             borderBottomWidth: 2,
             borderBottomColor: 'teal'
         }}>
+            <Image style={{width: '15%',
+                resizeMode:Image.resizeMode.contain}} source={require('./src/assets/img/logo.png')}/>
             <Hamburger/>
 
         </View>
