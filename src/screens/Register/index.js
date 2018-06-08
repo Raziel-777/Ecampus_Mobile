@@ -11,6 +11,9 @@ import Logo from '../../components/Logo'
 
 
 export default class Register extends Component {
+    static navigationOptions = {
+        headerTitle : <Text style={{fontSize:12}}>Nouvelle inscription ...</Text>,
+    };
 
     render() {
         return (

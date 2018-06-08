@@ -8,18 +8,9 @@ import {
     StyleSheet,
 } from "react-native";
 import Loader from '../../../src/components/Loader'
+import TokenStorage from "../../services/TokenStorage";
 
 export default class PostList extends Component {
-
-    static navigationOptions = {
-        header:
-            <View style={{
-                borderBottomWidth: 2,
-                borderBottomColor: 'teal'
-            }}>
-                <Image style={{resizeMode: Image.resizeMode.contain, width: 20, height:100}} source={require('../../../src/assets/img/logo.png')}/>
-            </View>,
-    };
 
     constructor(props) {
         super(props);
@@ -28,7 +19,14 @@ export default class PostList extends Component {
 
     async componentDidMount() {
         try {
-            let response = await fetch('https://test.ecampus.click/api/publications');
+            let response = await fetch('https://test.ecampus.click/api/publications', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + TokenStorage.token
+                },
+            });
             let responseJson = await response.json();
             this.setState({
                 isLoading: false,
@@ -51,8 +49,8 @@ export default class PostList extends Component {
             return (
                 <View style={styles.container}>
                     <View style={{padding: 20}}>
-                        <Text>
-                            Derniers Tutoriels Gratuits:
+                        <Text style={{fontWeight: 'bold'}}>
+                            Tous les Tutoriels
                         </Text>
                     </View>
                     <FlatList
@@ -137,20 +135,6 @@ export default class PostList extends Component {
 
                             </View>
                         }/>
-                    <View style={{
-                        padding: 10,
-                        marginBottom: 10,
-                        alignItems: 'flex-end'
-                    }}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => this.props.navigation.navigate('List')}
-                        >
-                            <Text>
-                                Voir Tous les Tutoriels
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             )
         }

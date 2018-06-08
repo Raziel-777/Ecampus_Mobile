@@ -5,22 +5,56 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
-
+    AsyncStorage
 } from 'react-native';
 import Logo from "../../components/Logo";
-
+import TokenStorage from '../../services/TokenStorage';
 
 
 export default class LoginScreen extends Component {
-    constructor(props){
-        super(props)
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: ''
+        };
     }
-    onLoginPress(){
+
+    async onLoginPress() {
+        let access = '';
+        try {
+            let response = await fetch('https://test.ecampus.click/oauth/token/', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'grant_type': 'password',
+                    'client_id': 2,
+                    'client_secret': 'uWUR61rcOCzK8g6TM9ZAT3P7doIHLLM9Yk0okcYt',
+                    'username': this.state.email,
+                    'password': this.state.password,
+                    'scope': ''
+                }),
+            });
+
+            let token = await response.json();
+            access = await token.access_token.toString();
+
+        } catch (e) {
+            console.log(e);
+        }
+        TokenStorage.token = access;
+        console.log(TokenStorage.token);
         this.props.navigation.navigate('Home');
     }
-    onRegisterPress(){
+
+
+    onRegisterPress() {
         this.props.navigation.navigate('Register');
     }
+
     render() {
         return (
 
@@ -32,12 +66,17 @@ export default class LoginScreen extends Component {
                 <TextInput
                     placeholder="Email adresse"
                     placeholderTextColor="rgba(0,0,0,0.7)"
-                    style={styles.input}/>
+                    style={styles.input}
+                    onChangeText={(email => this.setState({email}))}
+                    value={this.state.email}
+                />
                 <TextInput
                     placeholder="Your Password"
                     placeholderTextColor="rgba(0,0,0,0.7)"
                     secureTextEntry
-                    style={styles.input}/>
+                    style={styles.input}
+                    onChangeText={(password) => this.setState({password})}
+                    value={this.state.password}/>
 
                 <TouchableOpacity style={styles.buttonContainer}
                                   onPress={this.onLoginPress.bind(this)}>
@@ -48,10 +87,11 @@ export default class LoginScreen extends Component {
 
                 <TouchableOpacity onPress={this.onRegisterPress.bind(this)}
                                   style={styles.linkInscription}>
-                    <Text style={{ color:'#2980b9', textDecorationLine: 'underline'}}>
+                    <Text style={{color: '#2980b9', textDecorationLine: 'underline'}}>
                         S'inscrire au ECampus
                     </Text>
                 </TouchableOpacity>
+
             </View>
         )
     }
@@ -74,16 +114,16 @@ const styles = StyleSheet.create({
     buttonContainer: {
         backgroundColor: '#2980b9',
         paddingVertical: 18,
-        borderRadius:4
+        borderRadius: 4
     },
     buttonText: {
         textAlign: 'center',
         color: '#FFFFFF',
         fontWeight: '700'
     },
-    linkInscription:{
-        marginTop:40,
-        alignSelf:'center',
+    linkInscription: {
+        marginTop: 40,
+        alignSelf: 'center',
 
     },
 });

@@ -12,13 +12,13 @@ export default class Logo extends Component{
         return(
             <View style={{
                 alignItems: 'center',
-                padding : 20,
+                padding : 20
 
             }}>
                 <Image source={require('../../../src/assets/img/logo.png')}
                        style={{
                            width: '100%',
-                           resizeMode:Image.resizeMode.contain,
+                           resizeMode:Image.resizeMode.contain
                        }}/>
             </View>
         )

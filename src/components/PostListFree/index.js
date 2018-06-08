@@ -7,19 +7,12 @@ import {
     TouchableOpacity,
     StyleSheet
 } from "react-native";
-import Loader from '../../../src/components/Loader'
+import Loader from '../../../src/components/Loader';
+import style from '../../../src/assets/styles/globals';
+import TokenStorage from '../../services/TokenStorage';
+
 
 export default class PostListFree extends Component {
-
-    static navigationOptions = {
-        header:
-            <View style={{
-                borderBottomWidth: 2,
-                borderBottomColor: 'teal'
-            }}>
-                <Image style={{resizeMode: Image.resizeMode.contain, width: 20, height:100}} source={require('../../../src/assets/img/logo.png')}/>
-            </View>,
-    };
 
     constructor(props) {
         super(props);
@@ -28,7 +21,14 @@ export default class PostListFree extends Component {
 
     async componentDidMount() {
         try {
-            let response = await fetch('https://test.ecampus.click/api/publications/freePubli');
+            let response = await fetch('https://test.ecampus.click/api/publications/freePubli', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+ TokenStorage.token
+                },
+            });
             let responseJson = await response.json();
             this.setState({
                 isLoading: false,
@@ -51,7 +51,7 @@ export default class PostListFree extends Component {
             return (
                 <View style={styles.container}>
                     <View style={{padding: 20}}>
-                        <Text>
+                        <Text style={{fontWeight: 'bold'}}>
                             Derniers Tutoriels Gratuits:
                         </Text>
                     </View>
@@ -137,12 +137,12 @@ export default class PostListFree extends Component {
                             </View>
                         }/>
                     <View style={{
-                        padding: 10,
-                        marginBottom: 10,
-                        alignItems: 'flex-end'
+                        position: 'absolute',
+                        right: 0,
+                        bottom: 0,
                     }}>
                         <TouchableOpacity
-                            style={styles.button}
+                            style={style.button}
                             onPress={() => this.props.navigation.navigate('List')}
                         >
                             <Text>

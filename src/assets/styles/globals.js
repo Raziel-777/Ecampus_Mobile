@@ -13,7 +13,7 @@ export default StyleSheet.create({
     },
     title: {
         fontSize: 22,
-        color: 'white',
+        color: 'white'
     },
     row: {
         flexDirection: 'row',
