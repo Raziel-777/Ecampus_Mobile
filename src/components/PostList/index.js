@@ -66,7 +66,7 @@ export default class PostList extends Component {
                                         padding: 5
                                     }}
                                                       onPress={() => {
-                                                          this.props.navigation.navigate('Detail', {dataSource: item});
+                                                          this.props.navigation.navigate('Detail', {item});
                                                       }}>
                                         <View style={{flexDirection: 'column'}}>
                                             <View style={{
