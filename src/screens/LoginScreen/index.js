@@ -22,6 +22,7 @@ export default class LoginScreen extends Component {
 
     async onLoginPress() {
         let access = '';
+        let id = '';
         if (this.state.email === '' || this.state.password === '') {
             Alert.alert(
                 'Oups !',
@@ -71,10 +72,32 @@ export default class LoginScreen extends Component {
                 }
                 else {
                     let token = await response.json();
+                    console.log(token);
                     access = await token.access_token.toString();
                     TokenStorage.token = access;
-                    this.props.navigation.navigate('Home');
                 }
+
+                try {
+
+                    let user = await fetch('https://test.ecampus.click/api/user', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + TokenStorage.token
+                        }
+                    });
+
+                    let user_id = await user.json();
+                    console.log(user_id);
+                    id = await user_id.id.toString();
+                    TokenStorage.id = id;
+                    this.props.navigation.navigate('Home');
+
+                } catch (e) {
+                    console.log(e)
+                }
+
 
             } catch (e) {
                 console.log(e);
@@ -82,7 +105,6 @@ export default class LoginScreen extends Component {
 
         }
     }
-
 
     onRegisterPress() {
         this.props.navigation.navigate('Register');

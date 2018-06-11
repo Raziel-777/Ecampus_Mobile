@@ -97,6 +97,7 @@ export default class Register extends Component {
                 }
 
                 let access = '';
+                let id = '';
                 try {
                     let response = await fetch('https://test.ecampus.click/oauth/token/', {
                         method: 'POST',
@@ -116,6 +117,25 @@ export default class Register extends Component {
                     let token = await response.json();
                     access = await token.access_token.toString();
                     TokenStorage.token = access;
+
+                    try {
+
+                        let user = await fetch('https://test.ecampus.click/api/user', {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + TokenStorage.token
+                            }
+                        });
+
+                        let user_id = await user.json();
+                        id = await user_id.id.toString();
+                        TokenStorage.id = id;
+
+                    } catch (e) {
+                        console.log(e)
+                    }
                     this.props.navigation.navigate('Home');
 
                 } catch (e) {
