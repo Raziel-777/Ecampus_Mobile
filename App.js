@@ -12,6 +12,7 @@ import {
 } from 'react-navigation';
 import {View, Image} from "react-native";
 import Hamburger from './src/components/Hamburger';
+import UserScreen from "./src/screens/UserScreen";
 
 const navigationOptionsEmptyHeader = {
     header: null,
@@ -72,6 +73,10 @@ export default createStackNavigator(
         },
         AddPost: {
             screen: AddPostScreen,
+            navigationOptions: navigationOptionsEmptyHeader
+        },
+        User: {
+            screen: UserScreen,
             navigationOptions: navigationOptionsEmptyHeader
         }
 

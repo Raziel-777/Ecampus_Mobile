@@ -10,6 +10,7 @@ import {
 import Loader from '../../../src/components/Loader';
 import style from '../../../src/assets/styles/globals';
 import TokenStorage from '../../services/TokenStorage';
+import moment from "moment";
 
 
 export default class PostListFree extends Component {
@@ -120,7 +121,7 @@ export default class PostListFree extends Component {
                                             }}>
                                                 <View>
                                                     <Text style={{color: 'white'}}>
-                                                        Par {item.user.firstname}, le {item.created_at}
+                                                        Par {item.user.firstname}, le  {moment(item.created_at).format('DD/MM/YY')}
                                                     </Text>
                                                 </View>
                                                 <View>
