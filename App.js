@@ -1,16 +1,17 @@
 import React from 'react';
 import LoginScreen from './src/screens/LoginScreen';
+import Geoloc from './src/components/Geoloc';
 import DetailScreen from './src/screens/DetailScreen';
 import ListScreen from './src/screens/ListScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import AddPostScreen from './src/screens/AddPostScreen'
 import {
     createDrawerNavigator,
     createStackNavigator,
 } from 'react-navigation';
 import {View, Image} from "react-native";
 import Hamburger from './src/components/Hamburger';
-import Logo from './src/components/Logo'
 
 const navigationOptionsEmptyHeader = {
     header: null,
@@ -52,7 +53,7 @@ export default createStackNavigator(
             screen: ListScreen,
             navigationOptions: navigationOptionsHeader
         },
-        DetailScreen: {
+        Detail: {
             screen: DetailScreen,
             navigationOptions: navigationOptionsHeader
         },
@@ -63,6 +64,14 @@ export default createStackNavigator(
         },
         Register: {
             screen: RegisterScreen,
+            navigationOptions: navigationOptionsEmptyHeader
+        },
+        Geoloc: {
+            screen: Geoloc,
+            navigationOptions: navigationOptionsEmptyHeader
+        },
+        AddPost: {
+            screen: AddPostScreen,
             navigationOptions: navigationOptionsEmptyHeader
         }
 

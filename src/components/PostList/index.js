@@ -65,7 +65,7 @@ export default class PostList extends Component {
                                         padding: 5
                                     }}
                                                       onPress={() => {
-                                                          this.props.navigation.navigate('DetailScreen', {dataSource: item});
+                                                          this.props.navigation.navigate('Detail', {dataSource: item});
                                                       }}>
                                         <View style={{flexDirection: 'column'}}>
                                             <View style={{
@@ -137,6 +137,19 @@ export default class PostList extends Component {
 
                             </View>
                         }/>
+                    <View style={{
+                        position: 'absolute',
+                        right: 15,
+                        bottom: 15,
+                    }}>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.navigate('AddPost')}
+                        >
+                            <Image
+                                style={{ width:60, height:60}}
+                                source={require('../../assets/img/plus.png')}/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             )
         }

@@ -6,7 +6,9 @@ export default class ListScreen extends React.Component {
 
     render() {
         return (
-                <PostList/>
+                <PostList
+                    {...this.props}
+                    {...this.state}/>
         );
     }
 

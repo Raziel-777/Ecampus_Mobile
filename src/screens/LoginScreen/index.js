@@ -5,6 +5,7 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
+    Alert
 } from 'react-native';
 import Logo from "../../components/Logo";
 import TokenStorage from '../../services/TokenStorage';
@@ -21,32 +22,65 @@ export default class LoginScreen extends Component {
 
     async onLoginPress() {
         let access = '';
-        try {
-            let response = await fetch('https://test.ecampus.click/oauth/token/', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    'grant_type': 'password',
-                    'client_id': 2,
-                    'client_secret': 'uWUR61rcOCzK8g6TM9ZAT3P7doIHLLM9Yk0okcYt',
-                    'username': this.state.email,
-                    'password': this.state.password,
-                    'scope': ''
-                }),
-            });
+        if (this.state.email === '' || this.state.password === '') {
+            Alert.alert(
+                'Oups !',
+                'Vous n\'avez pas rempli les champs',
+                [
+                    {text: 'Cancel', onPress: () => this.props.navigation.goBack()}
+                ],
+                {cancelable: false}
+            );
 
-            let token = await response.json();
-            access = await token.access_token.toString();
+        } else if (!this.validateEmail(this.state.email)) {
+            Alert.alert(
+                'Oups !',
+                'Votre adress email n\'est pas valide',
+                [
+                    {text: 'Cancel', onPress: () => this.props.navigation.goBack()}
+                ],
+                {cancelable: false}
+            );
+        } else {
 
-        } catch (e) {
-            console.log(e);
+            try {
+                let response = await fetch('https://test.ecampus.click/oauth/token/', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'grant_type': 'password',
+                        'client_id': 2,
+                        'client_secret': 'uWUR61rcOCzK8g6TM9ZAT3P7doIHLLM9Yk0okcYt',
+                        'username': this.state.email,
+                        'password': this.state.password,
+                        'scope': ''
+                    }),
+                });
+                if (response.status !== 200) {
+                    Alert.alert(
+                        'Oups !',
+                        'Veuillez vérifier vos identifiants',
+                        [
+                            {text: 'Cancel', onPress: () => this.props.navigation.goBack()}
+                        ],
+                        {cancelable: false}
+                    );
+                }
+                else {
+                    let token = await response.json();
+                    access = await token.access_token.toString();
+                    TokenStorage.token = access;
+                    this.props.navigation.navigate('Home');
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+
         }
-        TokenStorage.token = access;
-        console.log(TokenStorage.token);
-        this.props.navigation.navigate('Home');
     }
 
 
@@ -94,6 +128,11 @@ export default class LoginScreen extends Component {
             </View>
         )
     }
+
+    validateEmail = (email) => {
+        var re = /(.+)@(.+){2,}\.(.+){2,}/;
+        return re.test(email);
+    };
 }
 
 const styles = StyleSheet.create({
