@@ -1,11 +1,11 @@
-import  React, {Component} from 'react';
+import React, {Component} from 'react';
 import {
     TextInput,
     Text,
     View,
     TouchableOpacity,
     StyleSheet,
-    ScrollView,
+    ScrollView, Alert,
 } from 'react-native';
 import Logo from '../../components/Logo'
 import TokenStorage from '../../services/TokenStorage'
@@ -13,77 +13,133 @@ import TokenStorage from '../../services/TokenStorage'
 
 export default class Register extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.state = {
-            firstname:'',
-            name:'',
-            email:'',
-            password:''
+            firstname: '',
+            name: '',
+            email: '',
+            password: ''
         }
     }
 
     static navigationOptions = {
-        headerTitle : <Text style={{fontSize:12, paddingLeft:10}}>Nouvelle inscription ...</Text>,
+        headerTitle: <Text style={{fontSize: 12, paddingLeft: 10}}>Nouvelle inscription ...</Text>,
     };
 
     async onSubmit() {
-        try {
-            let response = await fetch('https://test.ecampus.click/api/register', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    'name': this.state.name,
-                    'firstname': this.state.firstname,
-                    'email': this.state.email,
-                    'password': this.state.password,
-                    'password_confirmation': this.state.conf_password,
-                }),
-            });
-            console.log(response);
 
-            /**/
-            let access= '';
+        if (this.state.email === '' || this.state.password === '' || this.state.name === '' || this.state.firstname === '') {
+            Alert.alert(
+                'Oups !',
+                'Vous n\'avez pas rempli les champs',
+                [
+                    {text: 'Cancel'}
+                ],
+                {cancelable: false}
+            );
+
+        } else if (!this.validateEmail(this.state.email)) {
+            Alert.alert(
+                'Oups !',
+                'Votre adress email n\'est pas valide',
+                [
+                    {text: 'Cancel'}
+                ],
+                {cancelable: false}
+            );
+        } else if (!(this.state.password.length >= 6)) {
+            console.log('ererer');
+            Alert.alert(
+                'Oups !',
+                'Votre mot de passe doit comporter au moins 6 caratères',
+                [
+                    {text: 'Cancel'}
+                ],
+                {cancelable: false}
+            );
+        } else if (!(this.state.password === this.state.conf_password)) {
+            console.log('not conf');
+            Alert.alert(
+                'Oups !',
+                'Votre mot de passe n\'est pas confirmé ',
+                [
+                    {text: 'Cancel'}
+                ],
+                {cancelable: false}
+            );
+        } else {
+
             try {
-                let response = await fetch('https://test.ecampus.click/oauth/token/', {
+                let response = await fetch('https://test.ecampus.click/api/register', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        'grant_type': 'password',
-                        'client_id': 2,
-                        'client_secret': 'uWUR61rcOCzK8g6TM9ZAT3P7doIHLLM9Yk0okcYt',
-                        'username': this.state.email,
+                        'name': this.state.name,
+                        'firstname': this.state.firstname,
+                        'email': this.state.email,
                         'password': this.state.password,
-                        'scope': ''
+                        'password_confirmation': this.state.conf_password,
                     }),
                 });
+                if (response.status !== 200) {
+                    Alert.alert(
+                        'Oups !',
+                        'Une erreur est survenue, votre adresse email est-elle déjà utilisée ???',
+                        [
+                            {text: 'Cancel'}
+                        ],
+                        {cancelable: false}
+                    );
+                }
 
-                let token = await response.json();
-                access = await token.access_token.toString();
+                let access = '';
+                try {
+                    let response = await fetch('https://test.ecampus.click/oauth/token/', {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            'grant_type': 'password',
+                            'client_id': 2,
+                            'client_secret': 'uWUR61rcOCzK8g6TM9ZAT3P7doIHLLM9Yk0okcYt',
+                            'username': this.state.email,
+                            'password': this.state.password,
+                            'scope': ''
+                        }),
+                    });
+                    let token = await response.json();
+                    access = await token.access_token.toString();
+                    TokenStorage.token = access;
+                    this.props.navigation.navigate('Home');
+
+                } catch (e) {
+                    console.log(e);
+                }
+
 
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
-            TokenStorage.token = access;
-            this.props.navigation.navigate('Home');
-
-            /**/
-        } catch (e) {
-            console.log(e)
         }
+
     }
+
+    validateEmail = (email) => {
+        var re = /(.+)@(.+){2,}\.(.+){2,4}/;
+        return re.test(email);
+    };
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <View >
+            <ScrollView keyboardShouldPersistTaps='always'
+                        style={styles.container}>
+                <View>
                     <Logo/>
                 </View>
 
@@ -157,16 +213,16 @@ const styles = StyleSheet.create({
     buttonContainer: {
         backgroundColor: '#2980b9',
         paddingVertical: 18,
-        borderRadius:4
+        borderRadius: 4
     },
     buttonText: {
         textAlign: 'center',
         color: '#FFFFFF',
         fontWeight: '700'
     },
-    linkInscription:{
-        marginTop:40,
-        alignSelf:'center',
+    linkInscription: {
+        marginTop: 40,
+        alignSelf: 'center',
 
     },
 });

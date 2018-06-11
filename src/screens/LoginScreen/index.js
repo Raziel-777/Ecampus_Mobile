@@ -27,7 +27,7 @@ export default class LoginScreen extends Component {
                 'Oups !',
                 'Vous n\'avez pas rempli les champs',
                 [
-                    {text: 'Cancel', onPress: () => this.props.navigation.goBack()}
+                    {text: 'Cancel'}
                 ],
                 {cancelable: false}
             );
@@ -37,7 +37,7 @@ export default class LoginScreen extends Component {
                 'Oups !',
                 'Votre adress email n\'est pas valide',
                 [
-                    {text: 'Cancel', onPress: () => this.props.navigation.goBack()}
+                    {text: 'Cancel'}
                 ],
                 {cancelable: false}
             );
