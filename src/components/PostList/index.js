@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Loader from '../../../src/components/Loader'
 import TokenStorage from "../../services/TokenStorage";
+import moment from "moment";
 
 export default class PostList extends Component {
 
@@ -120,7 +121,7 @@ export default class PostList extends Component {
                                             }}>
                                                 <View>
                                                     <Text style={{color: 'white'}}>
-                                                        Par {item.user.firstname}, le {item.created_at}
+                                                        Par {item.user.firstname}, le  {moment(item.created_at).format('DD/MM/YY')}
                                                     </Text>
                                                 </View>
                                                 <View>
